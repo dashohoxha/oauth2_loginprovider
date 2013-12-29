@@ -1,47 +1,46 @@
 
-Installation
-------------
+* Installation
 
-drush dl services
-drush dl oauth2_server
-drush dl oauth2_loginprovider
-drush en oauth2_loginprovider
+  drush dl services oauth2_server oauth2_loginprovider
+  drush en oauth2_loginprovider
 
 
-Configuration
--------------
+* Usage
 
-Although most of the configurations are done automatically, the oauth2
-clients that will use this login provider have to be registered.  This
-is done on 'admin/structure/oauth2-servers/manage/oauth2/clients'.
-Either modify the 'Client Secret' and 'Redirect URI' of the existing
-Test client, or register new clients.
+  Although most of the configurations are done automatically, the oauth2
+  clients that will use this login provider have to be registered.  This
+  is done on 'admin/structure/oauth2-servers/manage/oauth2/clients'.
+  Either modify the 'Client Secret' and 'Redirect URI' of the existing
+  Test client, or register new clients.
+
+  Then clients can access the user profile with a POST request at:
+  https://server.example.org/oauth2/user/profile (after being
+  authenticated and having an access_token).
 
 
-About
------
+* About
 
-This module allows users to login to other sites through your site
-using OAuth2.  For example, assume that are two related sites A and B
-and users have to use both of them. Instead of having users to
-register in both of them, we can install this module on site A and
-allow users to login to site B using the credentials (username and
-password) that they use for site A. Site B can also retrieve and use
-data from the profile of the user that is stored on the site A, like
-the email, picture, etc. It is the same idea as the module
-'oauthloginprovider' but for oauth2.
+  This module allows users to login to other sites through your site
+  using OAuth2.  For example, assume that are two related sites A and
+  B and users have to use both of them. Instead of having users to
+  register in both of them, we can install this module on site A and
+  allow users to login to site B using the credentials (username and
+  password) that they use for site A. Site B can also retrieve and use
+  data from the profile of the user that is stored on the site A, like
+  the email, picture, etc. It is the same idea as the module
+  'oauthloginprovider' but for oauth2.
 
-This module depends on the module 'oauth2_server', which provides the
-oauth2 authentication, and on the modules 'services' and 'rest_server'
-which provide the endpoint and routing (callback) for the service
-'user/profile'. It is like a glue that makes the neccessary
-configurations to tie all these modules togather and to make things
-work as expected.
+  This module depends on the module 'oauth2_server', which provides
+  the oauth2 authentication, and on the modules 'services' and
+  'rest_server' which provide the endpoint and routing (callback) for
+  the service 'user/profile'. It is like a glue that makes the
+  neccessary configurations to tie all these modules togather and to
+  make things work as expected.
 
-There is nothing that cannot be done manually from the admin UI of
-Drupal. However this module saves the user from the trouble of making
-all the neccessary configurations manually, and provides a quick way
-to get things done for the users that are not so familiar with oauth2
-and rest services. It also provides a standard configuration for a
-Drupal oauth2 login provider, which can be used for integration with
-other modules (for example connector modules).
+  There is nothing that cannot be done manually from the admin UI of
+  Drupal. However this module saves the user from the trouble of
+  making all the neccessary configurations manually, and provides a
+  quick way to get things done for the users that are not so familiar
+  with oauth2 and rest services. It also provides a standard
+  configuration for a Drupal oauth2 login provider, which can be used
+  for integration with other modules (for example connector modules).

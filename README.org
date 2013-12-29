@@ -6,7 +6,8 @@
   drush en oauth2_loginprovider
   #+END_EXAMPLE
 
-* Configuration
+
+* Usage
 
   Although most of the configurations are done automatically, the
   oauth2 clients that will use this login provider have to be
@@ -14,6 +15,10 @@
   =admin/structure/oauth2-servers/manage/oauth2/clients=.  Either
   modify the *Client Secret* and *Redirect URI* of the existing Test
   client, or register new clients.
+
+  Then clients can access the user profile with a POST request at:
+  https://server.example.org/oauth2/user/profile (after being
+  authenticated and having an access_token).
 
 
 * About
