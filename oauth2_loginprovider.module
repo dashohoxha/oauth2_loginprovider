@@ -64,7 +64,7 @@ function oauth2_loginprovider_user_default_permissions() {
 }
 
 /**
- * Implementation of hook_default_services_endpoint().
+ * Implements hook_default_services_endpoint().
  */
 function oauth2_loginprovider_default_services_endpoint() {
   $endpoints = array();
@@ -131,15 +131,13 @@ function oauth2_loginprovider_services_resources() {
 }
 
 /**
- * Callback for the resource 'user/profile'
- * Returns information about the authenticated user.
+ * Returns the data of the authenticated user.
  */
 function oauth2_loginprovider_user_profile_callback() {
   global $user;
 
-  $data = (array)$user;
+  $data = (array) $user;
   unset($data['pass']);
 
-  return (object)$data;
+  return (object) $data;
 }
-

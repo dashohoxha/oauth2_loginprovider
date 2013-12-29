@@ -34,12 +34,12 @@
   the oauth2 authentication, and on the modules 'services' and
   'rest_server' which provide the endpoint and routing (callback) for
   the service 'user/profile'. It is like a glue that makes the
-  neccessary configurations to tie all these modules togather and to
+  necessary configurations to tie all these modules togather and to
   make things work as expected.
 
   There is nothing that cannot be done manually from the admin UI of
   Drupal. However this module saves the user from the trouble of
-  making all the neccessary configurations manually, and provides a
+  making all the necessary configurations manually, and provides a
   quick way to get things done for the users that are not so familiar
   with oauth2 and rest services. It also provides a standard
   configuration for a Drupal oauth2 login provider, which can be used

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Installation functions for oauth2_loginprovider.
  */
 
@@ -20,7 +21,6 @@ function oauth2_loginprovider_enable() {
   $client->label = 'Test';
   $client->client_key = 'test';
   $client->client_secret = 'hucOatvuep4';
-  //$client->redirect_uri = url('oauth2/authorized', array('absolute' => TRUE));
   $client->redirect_uri = 'https://client.example.org/hybridauth/endpoint?hauth.done=DrupalOAuth2';
   $client->automatic_authorization = TRUE;
   $client->save();
