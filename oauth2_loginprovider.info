@@ -1,0 +1,9 @@
+name = OAuth2 Login Provider
+description = Allows users to login to other sites through your site using OAuth2.
+package = OAuth2
+core = 7.x
+
+dependencies[] = services
+dependencies[] = rest_server
+dependencies[] = oauth2_server
+dependencies[] = features

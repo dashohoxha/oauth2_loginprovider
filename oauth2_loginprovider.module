@@ -1,0 +1,145 @@
+<?php
+/**
+ * @file
+ * Module file for oauth2_loginprovider.
+ */
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function oauth2_loginprovider_ctools_plugin_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "services" && $api == "services") {
+    return array("version" => "3");
+  }
+}
+
+/**
+ * Implements hook_default_oauth2_server().
+ */
+function oauth2_loginprovider_default_oauth2_server() {
+  $items = array();
+  $items['oauth2'] = entity_import('oauth2_server', '{
+    "name" : "oauth2",
+    "label" : "OAuth2 Server",
+    "settings" : {
+      "enforce_state" : true,
+      "default_scope" : "user_profile",
+      "allow_implicit" : 1,
+      "grant_types" : {
+        "authorization_code" : "authorization_code",
+        "client_credentials" : "client_credentials",
+        "refresh_token" : "refresh_token",
+        "password" : "password"
+      },
+      "always_issue_new_refresh_token" : 1,
+      "access_lifetime" : "3600",
+      "refresh_token_lifetime" : "1209600",
+      "require_exact_redirect_uri" : 0
+    },
+    "rdf_mapping" : [],
+    "scopes" : [ { "name" : "user_profile", "description" : "User Profile", "rdf_mapping" : [] } ]
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_user_default_permissions().
+ */
+function oauth2_loginprovider_user_default_permissions() {
+  $permissions = array();
+
+  // Exported permission: use oauth2 server.
+  $permissions['use oauth2 server'] = array(
+    'name' => 'use oauth2 server',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+    ),
+    'module' => 'oauth2_server',
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implementation of hook_default_services_endpoint().
+ */
+function oauth2_loginprovider_default_services_endpoint() {
+  $endpoints = array();
+
+  $endpoint = new stdClass();
+  $endpoint->disabled = FALSE; /* Edit this to true to make a default endpoint disabled initially */
+  $endpoint->api_version = 3;
+  $endpoint->name = 'OAuth2 Login Provider';
+  $endpoint->server = 'rest_server';
+  $endpoint->path = 'oauth2';
+  $endpoint->authentication = array(
+    'oauth2_server' => array(
+      'server' => 'oauth2',
+    ),
+  );
+  $endpoint->server_settings = array(
+    'formatters' => array(
+      'bencode' => TRUE,
+      'json' => TRUE,
+      'jsonp' => TRUE,
+      'php' => TRUE,
+      'xml' => TRUE,
+    ),
+    'parsers' => array(
+      'application/json' => TRUE,
+      'application/vnd.php.serialized' => TRUE,
+      'application/x-www-form-urlencoded' => TRUE,
+      'application/xml' => TRUE,
+      'multipart/form-data' => TRUE,
+      'text/xml' => TRUE,
+    ),
+  );
+  $endpoint->resources = array(
+    'user' => array(
+      'actions' => array(
+        'profile' => array(
+          'enabled' => '1',
+          'settings' => array(
+            'oauth2_server' => array(
+              'require_authentication' => '1',
+              'scope' => 'user_profile',
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+  $endpoint->debug = 0;
+  $endpoints[$endpoint->name] = $endpoint;
+
+  return $endpoints;
+}
+
+/**
+ * Implements hook_services_resources().
+ */
+function oauth2_loginprovider_services_resources() {
+  $resources['user']['actions']['profile'] = array(
+    'help' => 'Provides the profile data of the authenticated user',
+    'callback' => 'oauth2_loginprovider_user_profile_callback',
+    'access callback' => 'user_is_logged_in',
+  );
+  return $resources;
+}
+
+/**
+ * Callback for the resource 'user/profile'
+ * Returns information about the authenticated user.
+ */
+function oauth2_loginprovider_user_profile_callback() {
+  global $user;
+
+  $data = (array)$user;
+  unset($data['pass']);
+
+  return (object)$data;
+}
+
