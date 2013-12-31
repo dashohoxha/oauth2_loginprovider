@@ -123,7 +123,7 @@ function oauth2_loginprovider_default_services_endpoint() {
  */
 function oauth2_loginprovider_services_resources() {
   $resources['user']['actions']['profile'] = array(
-    'help' => 'Provides the profile data of the authenticated user',
+    'help' => t('Provides the profile data of the authenticated user.'),
     'callback' => 'oauth2_loginprovider_user_profile_callback',
     'access callback' => 'user_is_logged_in',
   );
