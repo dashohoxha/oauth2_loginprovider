@@ -24,6 +24,12 @@ function oauth2_loginprovider_enable() {
   $client->redirect_uri = 'https://client.example.org/hybridauth/endpoint?hauth.done=DrupalOAuth2';
   $client->automatic_authorization = TRUE;
   $client->save();
+
+  // Make sure that users have the permission to use the oauth2 server.
+  foreach (array('anonymous user', 'authenticated user') as $role_name) {
+    $role = user_role_load_by_name($role_name);
+    user_role_grant_permissions($role->rid, array('use oauth2 server'));
+  }
 }
 
 /**
@@ -54,5 +60,11 @@ function oauth2_loginprovider_disable() {
     foreach ($ids as $id) {
       entity_delete('oauth2_server_client', $id);
     }
+  }
+
+  // Remove the permission for using the oauth2 server.
+  foreach (array('anonymous user', 'authenticated user') as $role_name) {
+    $role = user_role_load_by_name($role_name);
+    user_role_revoke_permissions($role->rid, array('use oauth2 server'));
   }
 }
