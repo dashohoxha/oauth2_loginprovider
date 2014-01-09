@@ -1,7 +1,8 @@
 
 * Installation
 
-  drush dl services oauth2_server oauth2_loginprovider
+  drush dl features services oauth2_server
+  git clone https://github.com/dashohoxha/oauth2_loginprovider
   drush en oauth2_loginprovider
 
 
