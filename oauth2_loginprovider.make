@@ -8,7 +8,7 @@ projects[oauth2_loginprovider][type] = "module"
 projects[oauth2_loginprovider][download][type] = "git"
 projects[oauth2_loginprovider][download][url] = "https://github.com/dashohoxha/oauth2_loginprovider.git"
 
-projects[oauth2_server][version] = "1.0"
+projects[oauth2_server][version] = "1.x-dev"
 
 projects[features][version] = 1.0
 projects[entity][version] = "1.2"
