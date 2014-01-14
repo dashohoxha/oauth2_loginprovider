@@ -10,6 +10,7 @@ projects[oauth2_loginprovider][download][url] = "https://github.com/dashohoxha/o
 
 projects[oauth2_server][version] = "1.x-dev"
 
+projects[libraries][version] = "2.1"
 projects[features][version] = 1.0
 projects[entity][version] = "1.2"
 projects[entityreference][version] = "1.1"
