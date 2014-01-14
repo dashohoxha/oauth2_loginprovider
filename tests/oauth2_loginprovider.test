@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @file
+ * OAuth2 Login Provider tests.
+ */
+
+/**
+ * Test OAuth2 Login Provider.
+ */
+class OAuth2LoginProviderTestCase extends DrupalWebTestCase {
+  protected $profile = 'testing';
+
+  public static function getInfo() {
+    return array(
+      'name' => 'OAuth2 Login Provider',
+      'description' => 'Tests OAuth2 Login Provider.',
+      'group' => 'OAuth2',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('oauth2_loginprovider', 'libraries'));
+
+    // Create a test client.
+    $client = entity_create('oauth2_server_client', array());
+    $client->server = 'oauth2';
+    $client->label = 'Test client';
+    $client->client_key = 'client1';
+    $client->client_secret = 'secret1';
+    $client->redirect_uri = url('oauth2/authorized', array('absolute' => TRUE));
+    $client->automatic_authorization = TRUE;
+    $client->save();
+
+    // Create a test user.
+    user_save('', array(
+        'name' => 'user1',
+        'pass' => 'pass1',
+        'status' => 1,
+      ));
+  }
+
+  public function testGetUserProfile() {
+    try {
+      $access_token = $this->getAccessToken();
+      debug("access_token: $access_token");
+      $this->assertTrue($access_token, 'Token not empty.');
+
+      $profile = $this->getUserProfile($access_token);
+      debug($profile);
+      $this->assertEqual($profile->name, 'user1', 'This is the profile of the test user');
+    }
+    catch (Exception $e) {
+      debug($e);
+    }
+  }
+
+  /**
+   * Get and return an access_token for the test user.
+   */
+  protected function getAccessToken() {
+    $options = array(
+      'method' => 'POST',
+      'data' => http_build_query(array(
+                'grant_type' => 'password',
+                'username' => 'user1',
+                'password' => 'pass1',
+                'scope' => 'user_profile'
+              )),
+      'headers' => array(
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'Authorization' => 'Basic ' . base64_encode('client1:secret1'),
+      ),
+    );
+    $token_endpoint = url('oauth2/token', array('absolute' => TRUE));
+    $result = drupal_http_request($token_endpoint, $options);
+
+    if ($result->code != 200) {
+      throw new Exception(t("Failed to get an access token.\nError: !result_error",
+          array('!result_error' => $result->error)
+        ));
+    }
+
+    $data = json_decode($result->data);
+    return $data->access_token;
+  }
+
+  /**
+   * Get and return the profile of the user to whom the given access token belongs.
+   */
+  protected function getUserProfile($access_token) {
+    $profile_url = url('oauth2/user/profile', array('absolute' => TRUE));
+    $options = array(
+      'method' => 'POST',
+      'headers' => array(
+        'Authorization' => 'Bearer ' . $access_token,
+      ),
+    );
+    $result = drupal_http_request($profile_url, $options);
+
+    if ($result->code != 200) {
+      throw new Exception(t("Failed to get the user profile.\nError: !result_error",
+          array('!result_error' => $result->error)
+        ));
+    }
+
+    return json_decode($result->data);
+  }
+}
