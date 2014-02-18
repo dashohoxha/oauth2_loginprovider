@@ -38,7 +38,7 @@ function oauth2_loginprovider_default_oauth2_server() {
       "require_exact_redirect_uri" : 0
     },
     "rdf_mapping" : [],
-    "scopes" : [ { "name" : "user_profile", "description" : "User Profile", "rdf_mapping" : [] } ]
+    "scopes" : [ { "name" : "user_profile", "description" : "Access to the User Profile", "rdf_mapping" : [] } ]
   }');
   return $items;
 }
@@ -72,7 +72,8 @@ function oauth2_loginprovider_default_services_endpoint() {
   $endpoint = new stdClass();
   $endpoint->disabled = FALSE; /* Edit this to true to make a default endpoint disabled initially */
   $endpoint->api_version = 3;
-  $endpoint->name = 'OAuth2 Login Provider';
+  $endpoint->label = 'OAuth2 Login Provider';
+  $endpoint->name = 'oauth2_login_provider';
   $endpoint->server = 'rest_server';
   $endpoint->path = 'oauth2';
   $endpoint->authentication = array(
@@ -138,6 +139,7 @@ function oauth2_loginprovider_user_profile_callback() {
 
   $data = (array) $user;
   unset($data['pass']);
+  drupal_alter('oauth2_loginprovider_userprofile', $data);
 
   return (object) $data;
 }
