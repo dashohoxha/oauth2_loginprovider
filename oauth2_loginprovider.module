@@ -139,6 +139,13 @@ function oauth2_loginprovider_user_profile_callback() {
 
   $data = (array) $user;
   unset($data['pass']);
+
+  // Add the full URL to the user picture, if one is present.
+  if (variable_get('user_pictures', FALSE) && isset($data['picture']->uri)) {
+    $data['picture']->url = file_create_url($data['picture']->uri);
+  }
+
+  // Allow any other modules to modify the user data.
   drupal_alter('oauth2_loginprovider_userprofile', $data);
 
   return (object) $data;
