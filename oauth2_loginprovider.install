@@ -8,23 +8,6 @@
  * Implements hook_enable().
  */
 function oauth2_loginprovider_enable() {
-  // Create the scope 'user_profile'.
-  $scope = entity_create('oauth2_server_scope', array());
-  $scope->server = 'oauth2';
-  $scope->name = 'user_profile';
-  $scope->description = 'Access to the User Profile';
-  $scope->save();
-
-  // Create a test client.
-  $client = entity_create('oauth2_server_client', array());
-  $client->server = 'oauth2';
-  $client->label = 'Test';
-  $client->client_key = 'test';
-  $client->client_secret = 'hucOatvuep4';
-  $client->redirect_uri = 'https://client.example.org/hybridauth/endpoint?hauth.done=DrupalOAuth2';
-  $client->automatic_authorization = TRUE;
-  $client->save();
-
   // Make sure that users have the permission to use the oauth2 server.
   foreach (array('anonymous user', 'authenticated user') as $role_name) {
     $role = user_role_load_by_name($role_name);
@@ -36,35 +19,11 @@ function oauth2_loginprovider_enable() {
  * Implements hook_disable().
  */
 function oauth2_loginprovider_disable() {
-  // Delete the scope 'user_profile'.
-  $query = new EntityFieldQuery();
-  $scopes = $query->entityCondition('entity_type', 'oauth2_server_scope')
-    ->propertyCondition('server', 'oauth2')
-    ->propertyCondition('name', 'user_profile')
-    ->execute();
-  if (isset($scopes['oauth2_server_scope'])) {
-    $ids = array_keys($scopes['oauth2_server_scope']);
-    foreach ($ids as $id) {
-      entity_delete('oauth2_server_scope', $id);
-    }
-  }
-
-  // Delete the test client.
-  $query = new EntityFieldQuery();
-  $clients = $query->entityCondition('entity_type', 'oauth2_server_client')
-    ->propertyCondition('server', 'oauth2')
-    ->propertyCondition('client_key', 'test')
-    ->execute();
-  if (isset($clients['oauth2_server_client'])) {
-    $ids = array_keys($clients['oauth2_server_client']);
-    foreach ($ids as $id) {
-      entity_delete('oauth2_server_client', $id);
-    }
-  }
-
+  /*
   // Remove the permission for using the oauth2 server.
   foreach (array('anonymous user', 'authenticated user') as $role_name) {
     $role = user_role_load_by_name($role_name);
     user_role_revoke_permissions($role->rid, array('use oauth2 server'));
   }
+  */
 }
