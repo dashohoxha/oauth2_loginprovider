@@ -150,3 +150,55 @@ function oauth2_loginprovider_user_profile_callback() {
 
   return (object) $data;
 }
+
+/**
+ * Implements hook_user_logout().
+ */
+function oauth2_loginprovider_user_logout($account) {
+  if (!isset($_SERVER['HTTP_REFERER']))  return;
+  if (!isset($_GET['token']))  return;
+
+  // Check that the referer is one of the registered hosts.
+  $http_referer = $_SERVER['HTTP_REFERER'];
+  $host = parse_url($http_referer, PHP_URL_HOST);
+  $token = $_GET['token'];
+  $client_hosts = _oauth2_loginprovider_get_client_hosts($token);
+  if (!in_array($host, $client_hosts))  return;
+
+  // Redirect back to the original page.
+  drupal_register_shutdown_function('_redirect_to_the_original_page', $http_referer);
+}
+
+/**
+ * Return the registered hosts of the client that has the given token.
+ */
+function _oauth2_loginprovider_get_client_hosts($token) {
+  $client_ids = array();
+  $query = new EntityFieldQuery();
+  $entities = $query->entityCondition('entity_type', 'oauth2_server_token')
+    ->propertyCondition('type', 'access')
+    ->propertyCondition('token',  $token)
+    ->execute();
+  if (isset($entities['oauth2_server_token'])) {
+    $entity_ids = array_keys($entities['oauth2_server_token']);
+    $tokens = entity_load('oauth2_server_token', $entity_ids);
+    foreach ($tokens as $id => $token) {
+      $client_ids[] = $token->client_id;
+    }
+  }
+
+  $client_hosts = array();
+  $clients = entity_load('oauth2_server_client', $client_ids);
+  foreach ($clients as $id => $client) {
+    $client_hosts[] = parse_url($client->redirect_uri, PHP_URL_HOST);
+  }
+
+  return $client_hosts;
+}
+
+/**
+ * Redirect back to the original page.
+ */
+function _redirect_to_the_original_page($url) {
+  drupal_goto($url);
+}
