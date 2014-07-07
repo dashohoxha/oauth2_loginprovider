@@ -11,9 +11,9 @@ projects[xautoload][version] = "4.5"
 
 projects[services][version] = "3.7"
 
-projects[oauth2_server][version] = "1.0"
+projects[oauth2_server][version] = "1.1"
 
 libraries[oauth2-server-php][directory_name] = "oauth2-server-php"
 libraries[oauth2-server-php][download][type] = "git"
 libraries[oauth2-server-php][download][url] = "https://github.com/bshaffer/oauth2-server-php.git"
-libraries[oauth2-server-php][download][branch] = "v1.1"
+libraries[oauth2-server-php][download][branch] = "v1.4"
