@@ -14,6 +14,5 @@ projects[services][version] = "3.7"
 projects[oauth2_server][version] = "1.1"
 
 libraries[oauth2-server-php][directory_name] = "oauth2-server-php"
-libraries[oauth2-server-php][download][type] = "git"
-libraries[oauth2-server-php][download][url] = "https://github.com/bshaffer/oauth2-server-php.git"
-libraries[oauth2-server-php][download][branch] = "v1.4"
+libraries[oauth2-server-php][download][type] = "get"
+libraries[oauth2-server-php][download][url] = "https://github.com/bshaffer/oauth2-server-php/archive/v1.4.tar.gz"
