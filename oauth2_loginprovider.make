@@ -4,10 +4,10 @@ core = 7.x
 defaults[projects][subdir] = contrib
 
 projects[libraries] = 2.2
-projects[features] = 2.0
+projects[features] = 2.6
 projects[entity] = 1.6
 projects[entityreference] = 1.1
-projects[xautoload] = 4.5
+projects[xautoload] = 5.2
 
 projects[services][version] = 3.12
 
