@@ -145,6 +145,10 @@ function oauth2_loginprovider_user_profile_callback() {
     $data['picture']->url = file_create_url($data['picture']->uri);
   }
 
+  // Add the profileURL field.
+  $path = drupal_get_path_alias('user/' . $data['uid']);
+  $data['profileURL'] = url($path, ['absolute' => TRUE]);
+
   // Allow any other modules to modify the user data.
   drupal_alter('oauth2_loginprovider_userprofile', $data);
 
