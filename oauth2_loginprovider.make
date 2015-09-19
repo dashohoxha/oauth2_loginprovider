@@ -13,7 +13,7 @@ projects[services][version] = 3.12
 
 projects[oauth2_server][version] = 1.3
 ; Patch: Authenticate user if Bearer is present even if "Require authentication" is not checked
-projects[oauth2_server][patch][] = https://www.drupal.org/files/issues/oauth2_server-service_auth-2340297-1.patch
+projects[oauth2_server][patch][] = https://www.drupal.org/files/issues/oauth2_server-service_auth-2340297-6.patch
 
 libraries[oauth2-server-php][directory_name] = oauth2-server-php
 libraries[oauth2-server-php][download][type] = get
