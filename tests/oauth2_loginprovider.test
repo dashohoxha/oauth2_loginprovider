@@ -27,7 +27,7 @@ class OAuth2LoginProviderTestCase extends DrupalWebTestCase {
     $client->server = 'oauth2';
     $client->label = 'Test client';
     $client->client_key = 'client1';
-    $client->client_secret = 'secret1';
+    $client->client_secret = oauth2_server_hash_client_secret('secret1');
     $client->redirect_uri = url('oauth2/authorized', array('absolute' => TRUE));
     $client->automatic_authorization = TRUE;
     $client->save();
