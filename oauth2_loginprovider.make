@@ -11,9 +11,7 @@ projects[xautoload] = 5.5
 
 projects[services][version] = 3.13
 
-projects[oauth2_server][version] = 1.5
-; Patch: Fix bug in release 1.5
-projects[oauth2_server][patch][] = https://www.drupal.org/files/issues/oauth2_server-2664640-3.patch
+projects[oauth2_server][version] = 1.6
 
 libraries[oauth2-server-php][directory_name] = oauth2-server-php
 libraries[oauth2-server-php][download][type] = get
