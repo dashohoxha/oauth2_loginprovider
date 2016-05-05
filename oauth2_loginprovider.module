@@ -99,6 +99,19 @@ function oauth2_loginprovider_default_services_endpoint() {
     ),
   );
   $endpoint->resources = array(
+    'user_profile' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+          'settings' => array(
+            'oauth2_server' => array(
+              'require_authentication' => '1',
+              'scope' => 'user_profile',
+            ),
+          ),
+        ),
+      ),
+    ),
     'user' => array(
       'actions' => array(
         'profile' => array(
@@ -123,6 +136,11 @@ function oauth2_loginprovider_default_services_endpoint() {
  * Implements hook_services_resources().
  */
 function oauth2_loginprovider_services_resources() {
+  $resources['user_profile']['operations']['index'] = array(
+    'help' => t('Provides the profile data of the authenticated user.'),
+    'callback' => 'oauth2_loginprovider_user_profile_callback',
+    'access callback' => 'user_is_logged_in',
+  );
   $resources['user']['actions']['profile'] = array(
     'help' => t('Provides the profile data of the authenticated user.'),
     'callback' => 'oauth2_loginprovider_user_profile_callback',
