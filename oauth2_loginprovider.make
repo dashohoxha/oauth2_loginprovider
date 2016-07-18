@@ -9,7 +9,7 @@ projects[entity] = 1.6
 projects[entityreference] = 1.1
 projects[xautoload] = 5.5
 
-projects[services][version] = 3.13
+projects[services][version] = 3.15
 
 projects[oauth2_server][version] = 1.6
 
