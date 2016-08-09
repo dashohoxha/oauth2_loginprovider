@@ -72,6 +72,11 @@ class OAuth2LoginProviderTestCase extends DrupalWebTestCase {
         'Authorization' => 'Basic ' . base64_encode('client1:secret1'),
       ),
     );
+    $options['context'] = stream_context_create(array(
+                            'ssl' => array(
+                              'verify_peer' => FALSE,
+                              'verify_peer_name' => FALSE,
+                            )));
     $token_endpoint = url('oauth2/token', array('absolute' => TRUE));
     $result = drupal_http_request($token_endpoint, $options);
 
@@ -96,6 +101,11 @@ class OAuth2LoginProviderTestCase extends DrupalWebTestCase {
         'Authorization' => 'Bearer ' . $access_token,
       ),
     );
+    $options['context'] = stream_context_create(array(
+                            'ssl' => array(
+                              'verify_peer' => FALSE,
+                              'verify_peer_name' => FALSE,
+                            )));
     $result = drupal_http_request($profile_url, $options);
 
     if ($result->code != 200) {
