@@ -3,15 +3,15 @@ core = 7.x
 
 defaults[projects][subdir] = contrib
 
-projects[libraries] = 2.2
-projects[features] = 2.7
-projects[entity] = 1.6
-projects[entityreference] = 1.1
-projects[xautoload] = 5.5
+projects[libraries] = 2.3
+projects[features] = 2.10
+projects[entity] = 1.8
+projects[entityreference] = 1.2
+projects[xautoload] = 5.7
 
-projects[services][version] = 3.16
+projects[services][version] = 3.17
 
-projects[oauth2_server][version] = 1.6
+projects[oauth2_server][version] = 1.7
 
 libraries[oauth2-server-php][directory_name] = oauth2-server-php
 libraries[oauth2-server-php][download][type] = get
