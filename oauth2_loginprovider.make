@@ -6,10 +6,10 @@ defaults[projects][subdir] = contrib
 projects[libraries] = 2.3
 projects[features] = 2.10
 projects[entity] = 1.8
-projects[entityreference] = 1.2
+projects[entityreference] = 1.4
 projects[xautoload] = 5.7
 
-projects[services][version] = 3.17
+projects[services][version] = 3.20
 
 projects[oauth2_server][version] = 1.7
 
